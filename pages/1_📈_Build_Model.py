@@ -246,78 +246,118 @@ def build_model():
                                             ["Random Forest", "Linear Regression", "Support Vector Machine", 
                                               "K-Nearest Neighbors", "XGBoost"])
             
-            # Add hyperparameter inputs for each model
-            st.subheader("Hyperparameter Tuning")
+             # Option for hyperparameter tuning
+            hyperparameter_tuning = st.checkbox("Enable Hyperparameter Tuning")
 
-            if model_choice == "Random Forest":
-                n_estimators = st.number_input("Number of Estimators", min_value=1, max_value=500, value=100, step=10)
-                max_depth = st.number_input("Max Depth", min_value=1, max_value=100, value=10, step=1)
-                min_samples_split = st.number_input("Min Samples Split", min_value=2, max_value=20, value=2, step=1)
-                min_samples_leaf = st.number_input("Min Samples Leaf", min_value=1, max_value=20, value=1, step=1)
-                max_features = st.selectbox("Max Features", ["sqrt", "log2"])
-                if problem_type == "Classification":
-                    model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, min_samples_split=min_samples_split,
-                                                min_samples_leaf=min_samples_leaf, max_features=max_features, random_state=42)
-                else:
-                    model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, min_samples_split=min_samples_split,
-                                                min_samples_leaf=min_samples_leaf, max_features=max_features, random_state=42)
+            # Add hyperparameter inputs if tuning is enabled
+            if hyperparameter_tuning:
+                st.subheader("Hyperparameter Tuning")
 
-            elif model_choice in ["Logistic Regression", "Linear Regression"]:
-                if problem_type == "Classification":
-                    penalty = st.selectbox("Penalty", ["l1", "l2", "elasticnet", "none"])
-                    C = st.number_input("Inverse of regularization strength", min_value=0.01, max_value=10.0, value=1.0, step=0.01)
-                    solver = st.selectbox("Solver", ["lbfgs", "saga", "liblinear"])
-                    max_iter = st.number_input("Maximum Iterations", min_value=100, max_value=1000, value=100, step=50)
-                    model = LogisticRegression(penalty=penalty, C=C, solver=solver, max_iter=max_iter, random_state=42)
-                else:
-                    model = LinearRegression(fit_intercept=True, n_jobs=-1)
+                if model_choice == "Random Forest":
+                    n_estimators = st.number_input("Number of Estimators", min_value=1, max_value=500, value=100, step=10)
+                    max_depth = st.number_input("Max Depth", min_value=1, max_value=100, value=10, step=1)
+                    min_samples_split = st.number_input("Min Samples Split", min_value=2, max_value=20, value=2, step=1)
+                    min_samples_leaf = st.number_input("Min Samples Leaf", min_value=1, max_value=20, value=1, step=1)
+                    max_features = st.selectbox("Max Features", ["sqrt", "log2"])
+                    if problem_type == "Classification":
+                        model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, min_samples_split=min_samples_split,
+                                                    min_samples_leaf=min_samples_leaf, max_features=max_features, random_state=42)
+                    else:
+                        model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth, min_samples_split=min_samples_split,
+                                                    min_samples_leaf=min_samples_leaf, max_features=max_features, random_state=42)
 
-            elif model_choice == "Support Vector Machine":
-                C = st.number_input("Regularization parameter", min_value=0.01, max_value=10.0, value=1.0, step=0.01)
-                kernel = st.selectbox("Kernel", ["linear", "poly", "rbf", "sigmoid"])
-                gamma = st.selectbox("Kernel Coefficient", ["scale", "auto"])
-                degree = st.number_input("Degree (for poly kernel)", min_value=2, max_value=10, value=3, step=1)
-                if problem_type == "Classification":
-                    model = SVC(C=C, kernel=kernel, gamma=gamma, degree=degree, random_state=42)
-                else:
-                    model = SVR(C=C, kernel=kernel, gamma=gamma, degree=degree)
+                elif model_choice in ["Logistic Regression", "Linear Regression"]:
+                    if problem_type == "Classification":
+                        penalty = st.selectbox("Penalty", ["l1", "l2", "elasticnet", "none"])
+                        C = st.number_input("Inverse of regularization strength", min_value=0.01, max_value=10.0, value=1.0, step=0.01)
+                        solver = st.selectbox("Solver", ["lbfgs", "saga", "liblinear"])
+                        max_iter = st.number_input("Maximum Iterations", min_value=100, max_value=1000, value=100, step=50)
+                        model = LogisticRegression(penalty=penalty, C=C, solver=solver, max_iter=max_iter, random_state=42)
+                    else:
+                        model = LinearRegression(fit_intercept=True, n_jobs=-1)
 
-            elif model_choice == "Decision Tree":
-                max_depth = st.number_input("Max Depth", min_value=1, max_value=50, value=20, step=1)
-                min_samples_split = st.number_input("Min Samples Split", min_value=2, max_value=10, value=2, step=1)
-                min_samples_leaf = st.number_input("Min Samples Leaf", min_value=1, max_value=10, value=1, step=1)
-                criterion = st.selectbox("Criterion", ["gini", "entropy"])
-                if problem_type == "Classification":
-                    model = DecisionTreeClassifier(max_depth=max_depth, min_samples_split=min_samples_split, 
-                                                min_samples_leaf=min_samples_leaf, criterion=criterion, random_state=42)
+                elif model_choice == "Support Vector Machine":
+                    C = st.number_input("Regularization parameter", min_value=0.01, max_value=10.0, value=1.0, step=0.01)
+                    kernel = st.selectbox("Kernel", ["linear", "poly", "rbf", "sigmoid"])
+                    gamma = st.selectbox("Kernel Coefficient", ["scale", "auto"])
+                    degree = st.number_input("Degree (for poly kernel)", min_value=2, max_value=10, value=3, step=1)
+                    if problem_type == "Classification":
+                        model = SVC(C=C, kernel=kernel, gamma=gamma, degree=degree, random_state=42)
+                    else:
+                        model = SVR(C=C, kernel=kernel, gamma=gamma, degree=degree)
 
-            elif model_choice == "K-Nearest Neighbors":
-                n_neighbors = st.number_input("Number of Neighbors", min_value=1, max_value=20, value=5, step=1)
-                weights = st.selectbox("Weights", ["uniform", "distance"])
-                algorithm = st.selectbox("Algorithm", ["auto", "ball_tree", "kd_tree", "brute"])
-                p = st.number_input("Power Parameter", min_value=1, max_value=2, value=2, step=1)
-                if problem_type == "Classification":
-                    model = KNeighborsClassifier(n_neighbors=n_neighbors, weights=weights, algorithm=algorithm, p=p)
-                else:
-                    model = KNeighborsRegressor(n_neighbors=n_neighbors, weights=weights, algorithm=algorithm, p=p)
+                elif model_choice == "Decision Tree":
+                    max_depth = st.number_input("Max Depth", min_value=1, max_value=50, value=20, step=1)
+                    min_samples_split = st.number_input("Min Samples Split", min_value=2, max_value=10, value=2, step=1)
+                    min_samples_leaf = st.number_input("Min Samples Leaf", min_value=1, max_value=10, value=1, step=1)
+                    criterion = st.selectbox("Criterion", ["gini", "entropy"])
+                    if problem_type == "Classification":
+                        model = DecisionTreeClassifier(max_depth=max_depth, min_samples_split=min_samples_split, 
+                                                        min_samples_leaf=min_samples_leaf, criterion=criterion, random_state=42)
 
-            elif model_choice == "XGBoost":
-                n_estimators = st.number_input("Number of Estimators", min_value=1, max_value=500, value=100, step=10)
-                max_depth = st.number_input("Max Depth", min_value=1, max_value=50, value=6, step=1)
-                learning_rate = st.number_input("Learning Rate", min_value=0.01, max_value=1.0, value=0.3, step=0.01)
-                subsample = st.number_input("Subsample", min_value=0.1, max_value=1.0, value=1.0, step=0.1)
-                colsample_bytree = st.number_input("Colsample Bytree", min_value=0.1, max_value=1.0, value=1.0, step=0.1)
-                if problem_type == "Classification":
-                    model = xgb.XGBClassifier(n_estimators=n_estimators, max_depth=max_depth, learning_rate=learning_rate,
-                                            subsample=subsample, colsample_bytree=colsample_bytree, random_state=42)
-                else:
-                    model = xgb.XGBRegressor(n_estimators=n_estimators, max_depth=max_depth, learning_rate=learning_rate,
-                                            subsample=subsample, colsample_bytree=colsample_bytree, random_state=42)
+                elif model_choice == "K-Nearest Neighbors":
+                    n_neighbors = st.number_input("Number of Neighbors", min_value=1, max_value=20, value=5, step=1)
+                    weights = st.selectbox("Weights", ["uniform", "distance"])
+                    algorithm = st.selectbox("Algorithm", ["auto", "ball_tree", "kd_tree", "brute"])
+                    p = st.number_input("Power Parameter", min_value=1, max_value=2, value=2, step=1)
+                    if problem_type == "Classification":
+                        model = KNeighborsClassifier(n_neighbors=n_neighbors, weights=weights, algorithm=algorithm, p=p)
+                    else:
+                        model = KNeighborsRegressor(n_neighbors=n_neighbors, weights=weights, algorithm=algorithm, p=p)
+
+                elif model_choice == "XGBoost":
+                    n_estimators = st.number_input("Number of Estimators", min_value=1, max_value=500, value=100, step=10)
+                    max_depth = st.number_input("Max Depth", min_value=1, max_value=50, value=6, step=1)
+                    learning_rate = st.number_input("Learning Rate", min_value=0.01, max_value=1.0, value=0.3, step=0.01)
+                    subsample = st.number_input("Subsample", min_value=0.1, max_value=1.0, value=1.0, step=0.1)
+                    colsample_bytree = st.number_input("Column Sample By Tree", min_value=0.1, max_value=1.0, value=1.0, step=0.1)
+                    if problem_type == "Classification":
+                        model = xgb.XGBClassifier(n_estimators=n_estimators, max_depth=max_depth, learning_rate=learning_rate,
+                                                  subsample=subsample, colsample_bytree=colsample_bytree, use_label_encoder=False, eval_metric='mlogloss')
+                    else:
+                        model = xgb.XGBRegressor(n_estimators=n_estimators, max_depth=max_depth, learning_rate=learning_rate,
+                                                 subsample=subsample, colsample_bytree=colsample_bytree)
+
+            else:
+                # Default hyperparameters
+                if model_choice == "Random Forest":
+                    if problem_type == "Classification":
+                        model = RandomForestClassifier(random_state=42)
+                    else:
+                        model = RandomForestRegressor(random_state=42)
+
+                elif model_choice == "Logistic Regression":
+                    if problem_type == "Classification":
+                        model = LogisticRegression(random_state=42)
+                    else:
+                        model = LinearRegression()
+
+                elif model_choice == "Support Vector Machine":
+                    if problem_type == "Classification":
+                        model = SVC(random_state=42)
+                    else:
+                        model = SVR()
+
+                elif model_choice == "Decision Tree":
+                    if problem_type == "Classification":
+                        model = DecisionTreeClassifier(random_state=42)
+
+                elif model_choice == "K-Nearest Neighbors":
+                    if problem_type == "Classification":
+                        model = KNeighborsClassifier()
+
+                elif model_choice == "XGBoost":
+                    if problem_type == "Classification":
+                        model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='mlogloss')
+                    else:
+                        model = xgb.XGBRegressor()
 
             # Standardize features for models like SVC or Logistic Regression
             if model_choice in ["Logistic Regression", "Support Vector Machine", "Linear Regression"]:
                 scaler = StandardScaler()
                 X_resampled = scaler.fit_transform(X_resampled)
+
+                
 
             # Build model
             if st.button("Train Model"):
@@ -359,7 +399,7 @@ def build_model():
                     plot_regression_results(y_test, y_pred)
 
                 # Plot learning curve
-                plot_and_interpret_learning_curve(model, X_resampled, y_resampled, cv=10)
+                plot_and_interpret_learning_curve(model, X_resampled, y_resampled, cv=5)
                 
                 # Perform hypothesis testing
                 perform_hypothesis_test(y_test, y_pred)
