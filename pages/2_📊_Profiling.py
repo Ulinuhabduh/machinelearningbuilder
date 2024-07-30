@@ -3,14 +3,6 @@ import streamlit as st
 import sweetviz as sv
 import dtale
 from ydata_profiling import ProfileReport
-import os
-import streamlit.components.v1 as components
-
-# Import Flask
-from flask import Flask, request
-
-# Create a Flask app
-app = Flask(__name__)
 
 st.title("Profiling Data")
 
@@ -37,7 +29,7 @@ if uploaded_file is not None:
     except pd.errors.ParserError as e:
         st.error(f"Error parsing the CSV file: {e}. Please check the file format.")
 
-    choose_another = st.selectbox("Choose Methods", ["", "Sweetviz", "Dtale (Recommended)", "YData-Profiling"])
+    choose_another = st.selectbox("Choose Methods", ["", "Sweetviz", "YData-Profiling"])
 
     if choose_another == 'Sweetviz':
         report = sv.analyze(df)
@@ -54,14 +46,6 @@ if uploaded_file is not None:
                 file_name=report_file_path,
                 mime="text/html"
             )
-
-    elif choose_another == 'Dtale (Recommended)':
-        instance = dtale.show(df, ignore_duplicate=True, host='0.0.0.0')
-        instance.open_browser()
-        d_url = instance._main_url
-        st.write(f"D-Tale report is available here : ({d_url}).")
-        
-        # components.iframe(d_url, width=800, height=600, scrolling=True)
 
     elif choose_another == 'YData-Profiling':
         profile = ProfileReport(
