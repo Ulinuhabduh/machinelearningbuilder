@@ -22,10 +22,7 @@ st.sidebar.info("""
 st.sidebar.title("Contact")
 st.sidebar.info("""
     **Contact Us:**
-    - Email: support@mlbuilder.com
-    - Phone: +1-234-567-890
-    - [LinkedIn](https://www.linkedin.com)
-    - [GitHub](https://www.github.com)
+    - Email: mulinuhaa@gmail.com
 """)
 
 # Main title and introduction
