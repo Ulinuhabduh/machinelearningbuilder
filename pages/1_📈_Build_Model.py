@@ -275,6 +275,7 @@ def build_model():
                         model = LogisticRegression(penalty=penalty, C=C, solver=solver, max_iter=max_iter, random_state=42)
                     else:
                         model = LinearRegression(fit_intercept=True, n_jobs=-1)
+                        st.write("Hyperparameter is fit_intercept=True and n_jobs=-1")
 
                 elif model_choice == "Support Vector Machine":
                     C = st.number_input("Regularization parameter", min_value=0.01, max_value=10.0, value=1.0, step=0.01)
@@ -326,7 +327,7 @@ def build_model():
                     else:
                         model = RandomForestRegressor(random_state=42)
 
-                elif model_choice == "Logistic Regression":
+                elif model_choice in ["Logistic Regression", "Linear Regression"]:
                     if problem_type == "Classification":
                         model = LogisticRegression(random_state=42)
                     else:
@@ -355,20 +356,16 @@ def build_model():
             # Standardize features for models like SVC or Logistic Regression
             if model_choice in ["Logistic Regression", "Support Vector Machine", "Linear Regression"]:
                 scaler = StandardScaler()
-                X_resampled = scaler.fit_transform(X_resampled)
-
-                
+                X_resampled = scaler.fit_transform(X_resampled)        
 
             # Build model
             if st.button("Train Model"):
                 # Track training time
                 start_time = time.time()
-
-                if validation_method == "Holdout Set":
-                    
-                    # Train model
-                    model.fit(X_train, y_train)
-                    y_pred = model.predict(X_test)
+                 
+                # Train model
+                model.fit(X_train, y_train)
+                y_pred = model.predict(X_test)
 
                 # Calculate training time
                 end_time = time.time()
