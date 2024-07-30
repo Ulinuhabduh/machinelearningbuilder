@@ -11,3 +11,5 @@ dtale==3.13.0
 ydata-profiling==4.9.0
 flask==2.2.5
 scipy==1.13.1
+google-generativeai==0.7.1
+
