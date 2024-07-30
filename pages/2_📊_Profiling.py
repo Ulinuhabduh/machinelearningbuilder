@@ -58,8 +58,8 @@ if uploaded_file is not None:
     elif choose_another == 'Dtale (Recommended)':
         instance = dtale.show(df, ignore_duplicate=True, host='0.0.0.0')
         instance.open_browser()
-        # d_url = instance._main_url
-        # st.write(f"D-Tale report is available here : ({d_url}).")
+        d_url = instance._main_url
+        st.write(f"D-Tale report is available here : ({d_url}).")
         
         # components.iframe(d_url, width=800, height=600, scrolling=True)
 
