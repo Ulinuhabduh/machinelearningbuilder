@@ -4,6 +4,7 @@ import sweetviz as sv
 import dtale
 from ydata_profiling import ProfileReport
 import os
+import streamlit.components.v1 as components
 
 # Import Flask
 from flask import Flask, request
@@ -55,9 +56,12 @@ if uploaded_file is not None:
             )
 
     elif choose_another == 'Dtale (Recommended)':
-        instance = dtale.show(df)
-        d_url = instance._main_url
-        st.write(f"D-Tale report is available here : ({d_url}).")
+        instance = dtale.show(df, ignore_duplicate=True, host='0.0.0.0')
+        instance.open_browser()
+        # d_url = instance._main_url
+        # st.write(f"D-Tale report is available here : ({d_url}).")
+        
+        # components.iframe(d_url, width=800, height=600, scrolling=True)
 
     elif choose_another == 'YData-Profiling':
         profile = ProfileReport(
