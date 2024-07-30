@@ -1,0 +1,11 @@
+streamlit==1.37.0
+pandas==2.2.2
+scikit-learn==1.5.1
+xgboost==1.6.2
+imbalanced-learn==0.12.3
+numpy==1.26.4
+matplotlib==3.8.4
+seaborn==0.13.2
+sweetviz==2.3.1
+dtale==3.13.0
+ydata-profiling==4.9.0
