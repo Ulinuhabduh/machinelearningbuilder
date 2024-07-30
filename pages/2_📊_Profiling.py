@@ -5,6 +5,12 @@ import dtale
 from ydata_profiling import ProfileReport
 import os
 
+# Import Flask
+from flask import Flask, request
+
+# Create a Flask app
+app = Flask(__name__)
+
 st.title("Profiling Data")
 
 uploaded_file = st.file_uploader("Choose a CSV file for profiling", type="csv")
@@ -49,9 +55,9 @@ if uploaded_file is not None:
             )
 
     elif choose_another == 'Dtale (Recommended)':
-        d = dtale.show(df)
-        d.open_browser()
-        st.write("Dtale report opened in a new browser tab. Please check your browser.")
+        instance = dtale.show(df)
+        d_url = instance._main_url
+        st.write(f"D-Tale report is available here : ({d_url}).")
 
     elif choose_another == 'YData-Profiling':
         profile = ProfileReport(
