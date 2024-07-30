@@ -4,7 +4,7 @@ import os
 import time
 import openai
 
-select_api = st.selectbox("Select API", [" ","Gemini-Pro", "GPT-4o"])
+select_api = st.selectbox("Select API", [" ","Gemini-Pro", "GPT-3.5"])
 
 if select_api == "Gemini-Pro":
     # Set your Google API key
