@@ -12,4 +12,5 @@ ydata-profiling==4.9.0
 flask==2.2.5
 scipy==1.13.1
 google-generativeai==0.7.1
+openai==1.37.1
 
