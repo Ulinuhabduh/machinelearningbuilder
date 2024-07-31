@@ -341,7 +341,7 @@ def build_model():
 
                 elif model_choice == "XGBoost":
                     if problem_type == "Classification":
-                        model = xgb.XGBClassifier(use_label_encoder=False, eval_metric='mlogloss')
+                        model = xgb.XGBClassifier(eval_metric='mlogloss')
                     else:
                         model = xgb.XGBRegressor()
 
