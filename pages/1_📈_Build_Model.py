@@ -202,7 +202,7 @@ def build_model():
             plot_class_distribution(y, title="Class Distribution")
 
             resampling_choice = st.selectbox("Choose resampling technique", 
-                                             ["None", "Oversampling", "Undersampling", "SMOTE"])
+                                             [" ", "None", "Oversampling", "Undersampling", "SMOTE"])
 
             if resampling_choice == "Oversampling":
                 ros = RandomOverSampler(random_state=42)
@@ -216,7 +216,7 @@ def build_model():
                 smote = SMOTE(random_state=42)
                 X_resampled, y_resampled = smote.fit_resample(X, y)
                 plot_class_distribution(y_resampled, title="SMOTE Class Distribution")
-            else:
+            elif resampling_choice == "None":
                 X_resampled, y_resampled = X, y
 
             st.write("---")
@@ -225,18 +225,18 @@ def build_model():
             test_size = st.slider("Test set size", 0.1, 0.5, 0.2, 0.05)
             X_train, X_test, y_train, y_test = train_test_split(X_resampled, y_resampled, test_size=test_size, random_state=42)
 
-            problem_type = st.selectbox("Choose problem type", ["Classification", "Regression"])
+            problem_type = st.selectbox("Choose problem type", [" ","Classification", "Regression"])
 
             validation_method = "Holdout Set"
 
             # Choose model
             if problem_type == "Classification":
                 model_choice = st.selectbox("Choose a model", 
-                                            ["Random Forest", "Logistic Regression", "Support Vector Machine", 
+                                            [" ", "Random Forest", "Logistic Regression", "Support Vector Machine", 
                                              "Decision Tree", "K-Nearest Neighbors", "XGBoost"])
-            else: 
+            elif problem_type == "Regression": 
                 model_choice = st.selectbox("Choose a model", 
-                                            ["Random Forest", "Linear Regression", "Support Vector Machine", 
+                                            [" ", "Random Forest", "Linear Regression", "Support Vector Machine", 
                                               "K-Nearest Neighbors", "XGBoost"])
             
              # Option for hyperparameter tuning
