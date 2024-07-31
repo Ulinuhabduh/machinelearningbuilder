@@ -22,17 +22,13 @@ from scipy import stats
 
 def plot_class_distribution(y, title="Class Distribution"):
 
-    # Calculate the frequency of each class
     class_counts = pd.Series(y).value_counts()
     
-    # Extract class labels and their frequencies
     class_labels = class_counts.index
     frequencies = class_counts.values
 
-    # Create a DataFrame for plotting
     class_distribution = pd.DataFrame({'Class': class_labels, 'Frequency': frequencies})
 
-    # Plot the bar chart
     st.subheader(title)
     st.bar_chart(class_distribution, x="Class", y="Frequency", horizontal=True)
     
@@ -62,18 +58,16 @@ def plot_and_interpret_learning_curve(model, X, y, cv):
             Test scores mean : {test_scores_mean[-1]:.4f}
             ''')
     
-    # Calculate score differences
     score_diff = train_scores_mean[-1] - test_scores_mean[-1]
     score_improvement = test_scores_mean[-1] - test_scores_mean[0]
     
-    # Interpret results
-    if test_scores_mean[-1] < 0.7:  # Adjust this threshold based on your specific problem
+    if test_scores_mean[-1] < 0.7: 
         st.warning("The model may be underfitting. Consider:")
         st.write("- Increasing model complexity")
         st.write("- Adding more relevant features")
         st.write("- Collecting more diverse training data")
     
-    if score_diff > 0.2:  # Adjusted threshold for overfitting
+    if score_diff > 0.2:  
         st.warning("The model may be overfitting. Consider:")
         st.write("- Using regularization")
         st.write("- Simplifying the model")
@@ -115,7 +109,7 @@ def plot_regression_results(y_true, y_pred):
 def calculate_regression_metrics(y_true, y_pred):
     r2 = r2_score(y_true, y_pred)
     n = len(y_true)
-    p = len(y_pred)  # number of predictors
+    p = len(y_pred) 
     adjusted_r2 = 1 - (1 - r2) * (n - 1) / (n - p - 1)
     mse = mean_squared_error(y_true, y_pred)
     rmse = np.sqrt(mse)
@@ -130,7 +124,7 @@ def calculate_regression_metrics(y_true, y_pred):
 def perform_hypothesis_test(y_true, y_pred):
     st.subheader("Hypothesis Testing")
     
-    # Perform paired t-test
+
     t_statistic, p_value = stats.ttest_rel(y_true, y_pred)
     
     st.write("Null Hypothesis: There is no significant difference between the true values and the predicted values.")
@@ -161,15 +155,15 @@ def build_model():
         target = st.selectbox("Select target variable", data.columns)
 
         if len(features) > 0 and target:
-            # Check if target is in features and remove it if present
+            
             if target in features:
                 st.warning("Target variable should not be in features.")
                 features.remove(target)
 
-            # Create a new dataframe with only selected features and target
+            
             selected_data = data[features + [target]]
 
-            # Option to drop NA values
+            
             if st.checkbox("Drop NA values"):
                 original_shape = selected_data.shape
                 selected_data = selected_data.dropna()
@@ -195,7 +189,7 @@ def build_model():
                 label_encoder = LabelEncoder()
                 y = label_encoder.fit_transform(y)
                 
-                # Display encoding information
+                
                 st.subheader("Label Encoding")
                 encoding_info = pd.DataFrame({
                     'Original': label_encoder.classes_,
@@ -203,10 +197,8 @@ def build_model():
                 })
                 st.write(encoding_info)
 
-            # Plot initial class distribution
             plot_class_distribution(y, title="Class Distribution")
 
-            # Resampling options
             resampling_choice = st.selectbox("Choose resampling technique", 
                                              ["None", "Oversampling", "Undersampling", "SMOTE"])
 
@@ -225,15 +217,12 @@ def build_model():
             else:
                 X_resampled, y_resampled = X, y
 
-            # Split data
             test_size = st.slider("Test set size", 0.1, 0.5, 0.2, 0.05)
             X_train, X_test, y_train, y_test = train_test_split(X_resampled, y_resampled, test_size=test_size, random_state=42)
 
 
-            # Choose problem type
             problem_type = st.selectbox("Choose problem type", ["Classification", "Regression"])
 
-            # Choose validation method
             validation_method = "Holdout Set"
 
             # Choose model
@@ -241,7 +230,7 @@ def build_model():
                 model_choice = st.selectbox("Choose a model", 
                                             ["Random Forest", "Logistic Regression", "Support Vector Machine", 
                                              "Decision Tree", "K-Nearest Neighbors", "XGBoost"])
-            else:  # Regression
+            else: 
                 model_choice = st.selectbox("Choose a model", 
                                             ["Random Forest", "Linear Regression", "Support Vector Machine", 
                                               "K-Nearest Neighbors", "XGBoost"])
@@ -249,7 +238,6 @@ def build_model():
              # Option for hyperparameter tuning
             hyperparameter_tuning = st.checkbox("Enable Hyperparameter Tuning")
 
-            # Add hyperparameter inputs if tuning is enabled
             if hyperparameter_tuning:
                 st.subheader("Hyperparameter Tuning")
 
@@ -360,20 +348,17 @@ def build_model():
 
             # Build model
             if st.button("Train Model"):
-                # Track training time
                 start_time = time.time()
                  
                 # Train model
                 model.fit(X_train, y_train)
                 y_pred = model.predict(X_test)
 
-                # Calculate training time
                 end_time = time.time()
                 training_time = end_time - start_time
                 st.info(f"Training time: {training_time:.2f} seconds")
                 
                 if problem_type == "Classification":
-                    # Show classification report
                     st.subheader("Classification Report")
                     
                     accuracy = accuracy_score(y_test, y_pred)
@@ -386,19 +371,15 @@ def build_model():
                             Model Balanced Accuracy: {balanced_accuracy:.2f}
                             ''')
 
-                    # Confusion matrix
                     st.subheader("Confusion Matrix")
                     plot_confusion_matrix(y_test, y_pred, label_encoder.classes_)
                 else:
-                    # Show regression metrics
                     st.subheader("Regression Metrics")
                     calculate_regression_metrics(y_test, y_pred)
                     plot_regression_results(y_test, y_pred)
 
-                # Plot learning curve
                 plot_and_interpret_learning_curve(model, X_resampled, y_resampled, cv=5)
                 
-                # Perform hypothesis testing
                 perform_hypothesis_test(y_test, y_pred)
                                 
                 # Save model
@@ -407,7 +388,6 @@ def build_model():
                     pickle.dump(model, file)
                 st.success("Model trained and saved successfully!")
 
-                # Option to download model
                 with open('model.pkl', 'rb') as file:
                     model_bytes = file.read()
                 st.download_button(

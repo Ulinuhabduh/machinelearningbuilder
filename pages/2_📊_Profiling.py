@@ -13,13 +13,13 @@ if uploaded_file is not None:
         sep = st.selectbox("Select separator", ['comma', 'semicolon', 'tab', 'spasi'])
         if sep == 'comma':
             sep = ','
-            df = pd.read_csv(uploaded_file, sep=sep, on_bad_lines='skip')  # Read CSV file once
+            df = pd.read_csv(uploaded_file, sep=sep, on_bad_lines='skip')  
         elif sep == 'semicolon':
             sep = ';'
-            df = pd.read_csv(uploaded_file, sep=sep, on_bad_lines='skip')  # Read CSV file once
+            df = pd.read_csv(uploaded_file, sep=sep, on_bad_lines='skip') 
         elif sep == 'tab':
             sep = '\t'
-            df = pd.read_csv(uploaded_file, sep=sep, on_bad_lines='skip')  # Read CSV file once
+            df = pd.read_csv(uploaded_file, sep=sep, on_bad_lines='skip')  
         else:
             sep = ' '
             df = pd.read_csv(uploaded_file, sep=sep, on_bad_lines='skip') 
@@ -38,7 +38,6 @@ if uploaded_file is not None:
         
         st.success("Sweetviz report generated successfully.")
         
-        # Create a download button for the Sweetviz report
         with open(report_file_path, 'rb') as file:
             btn = st.download_button(
                 label="Download Sweetviz Report",
@@ -63,7 +62,6 @@ if uploaded_file is not None:
         
         st.success("YData Profiling report generated successfully.")
         
-        # Create a download button for the YData-Profiling report
         with open(report_file_path, 'rb') as file:
             btn = st.download_button(
                 label="Download YData-Profiling Report",
