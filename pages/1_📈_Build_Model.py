@@ -124,7 +124,6 @@ def calculate_regression_metrics(y_true, y_pred):
 def perform_hypothesis_test(y_true, y_pred):
     st.subheader("Hypothesis Testing")
     
-
     t_statistic, p_value = stats.ttest_rel(y_true, y_pred)
     
     st.write("Null Hypothesis: There is no significant difference between the true values and the predicted values.")
@@ -149,6 +148,7 @@ def build_model():
         st.write(data.head())
         st.write("Rows: ", data.shape[0])
 
+        st.write("---")
         # Select features and target
         st.subheader("Preprocess Data")
         features = st.multiselect("Select features", data.columns)
@@ -184,6 +184,8 @@ def build_model():
             st.info("Updated Data Preview")
             st.write(selected_data.head())
             
+            st.write("---")
+            
             # Encode target labels
             if st.checkbox("Encode target labels"):
                 label_encoder = LabelEncoder()
@@ -217,9 +219,11 @@ def build_model():
             else:
                 X_resampled, y_resampled = X, y
 
+            st.write("---")
+            
+            st.subheader("Build Model")
             test_size = st.slider("Test set size", 0.1, 0.5, 0.2, 0.05)
             X_train, X_test, y_train, y_test = train_test_split(X_resampled, y_resampled, test_size=test_size, random_state=42)
-
 
             problem_type = st.selectbox("Choose problem type", ["Classification", "Regression"])
 
@@ -382,6 +386,7 @@ def build_model():
                 
                 perform_hypothesis_test(y_test, y_pred)
                                 
+                st.write("---")
                 # Save model
                 st.subheader("Save Model")
                 with open('model.pkl', 'wb') as file:
