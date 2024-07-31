@@ -5,9 +5,9 @@ import time
 import openai
 
 
-GOOGLE_API_KEY = "AIzaSyDAcIxULry0OG0JrRPRypnl8hEWfNQrcw4"
+GOOGLE_API_KEY = st.secrets["secrets"]["GoogleAPIKey"]
 
-    # Set up Google Gemini-Pro AI model
+# Set up Google Gemini-Pro AI model
 gen_ai.configure(api_key=GOOGLE_API_KEY)
 model = gen_ai.GenerativeModel('gemini-pro')
 
