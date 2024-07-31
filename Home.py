@@ -22,6 +22,7 @@ st.sidebar.info("""
 """)
 
 st.title("👋 Welcome to ML Model Builder and Predictor")
+st.markdown("*Author*: **M Ulin Nuha Abduh**")
 st.write("""
     This app allows you to build and evaluate machine learning models, as well as make predictions using the trained models.
     Use the sidebar to navigate between pages and explore the features of this app.
