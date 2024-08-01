@@ -31,7 +31,7 @@ import time
 
 
 def plot_roc_auc(y_test, y_pred_proba, n_classes):
-    plt.figure(figsize=(8, 4))
+    plt.figure(figsize=(8, 5))
 
     if n_classes == 2:
         fpr, tpr, _ = roc_curve(y_test, y_pred_proba[:, 1])
@@ -78,9 +78,7 @@ def interpret_roc_auc(roc_auc):
 
     if isinstance(roc_auc, dict):
         avg_auc = sum(roc_auc.values()) / len(roc_auc)
-        st.write(f"Average AUC: {avg_auc:.2f}")
-        for i, auc_value in roc_auc.items():
-            st.write(f"AUC for class {i}: {auc_value:.2f}")
+        st.write(f"***Average AUC: {avg_auc:.2f}***")
     else:
         st.write(f"AUC: {roc_auc:.2f}")
 

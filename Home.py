@@ -17,7 +17,7 @@ st.sidebar.info("""
 
 st.sidebar.title("Contact")
 st.sidebar.info("""
-    **Contact Us:**
+    **Contact Me:**
     - Email: mulinuhaa@gmail.com
 """)
 

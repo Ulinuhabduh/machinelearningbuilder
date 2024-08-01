@@ -4,13 +4,10 @@ import os
 import time
 import openai
 
-
 GOOGLE_API_KEY = st.secrets["key"]["GoogleAPIKey"]
 
-# Set up Google Gemini-Pro AI model
 gen_ai.configure(api_key=GOOGLE_API_KEY)
 model = gen_ai.GenerativeModel('gemini-pro')
-
 
 def translate_role_for_streamlit(user_role):
     if user_role == "model":
@@ -18,23 +15,20 @@ def translate_role_for_streamlit(user_role):
     else:
         return user_role
 
-
 if "chat_session" not in st.session_state:
     st.session_state.chat_session = model.start_chat(history=[])
 
-
-st.title("🤖 Gemini Pro - ChatBot")
+st.title("🤖 ChatBot")
 
 for message in st.session_state.chat_session.history:
     with st.chat_message(translate_role_for_streamlit(message.role)):
         st.markdown(message.parts[0].text)
 
-# Input field for user's message
-user_prompt = st.chat_input("Ask Gemini-Pro...")
+# Ask ChatBot
+user_prompt = st.chat_input("Ask ChatBot...")
 if user_prompt:
     st.chat_message("user").markdown(user_prompt)
 
-    # Create a placeholder for the assistant's response
     assistant_placeholder = st.chat_message("assistant")
     assistant_text_placeholder = assistant_placeholder.empty()
 
