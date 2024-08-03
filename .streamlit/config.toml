@@ -1,2 +1,10 @@
 [server]
 maxUploadSize = 2048
+headless = true
+enableCORS = false
+enableXsrfProtection = false
+address = "0.0.0.0"
+port = 8501
+
+[browser]
+gatherUsageStats = false
