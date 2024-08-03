@@ -2,6 +2,14 @@ import streamlit as st
 import pandas as pd
 import pickle
 
+st.sidebar.title("Contact")
+st.sidebar.info(
+    """
+    **Contact Me:**
+    - Email: mulinuhaa@gmail.com
+"""
+)
+
 def predict_data():
     st.title("Predict Data With Model")
 

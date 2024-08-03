@@ -6,6 +6,14 @@ from ydata_profiling import ProfileReport
 
 st.title("Profiling Data")
 
+st.sidebar.title("Contact")
+st.sidebar.info(
+    """
+    **Contact Me:**
+    - Email: mulinuhaa@gmail.com
+"""
+)
+
 uploaded_file = st.file_uploader("Choose a CSV file for profiling", type="csv")
 
 if uploaded_file is not None:

@@ -29,6 +29,13 @@ from imblearn.under_sampling import RandomUnderSampler
 import pickle
 import time
 
+st.sidebar.title("Contact")
+st.sidebar.info(
+    """
+    **Contact Me:**
+    - Email: mulinuhaa@gmail.com
+"""
+)
 
 def plot_roc_auc(y_test, y_pred_proba, n_classes):
     plt.figure(figsize=(8, 5))

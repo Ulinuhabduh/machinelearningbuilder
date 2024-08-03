@@ -4,6 +4,14 @@ import os
 import time
 import openai
 
+st.sidebar.title("Contact")
+st.sidebar.info(
+    """
+    **Contact Me:**
+    - Email: mulinuhaa@gmail.com
+"""
+)
+
 GOOGLE_API_KEY = st.secrets["key"]["GoogleAPIKey"]
 
 gen_ai.configure(api_key=GOOGLE_API_KEY)
