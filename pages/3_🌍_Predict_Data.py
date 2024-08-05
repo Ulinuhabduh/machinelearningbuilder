@@ -13,12 +13,14 @@ st.sidebar.info(
 def predict_data():
     st.title("Predict Data With Model")
 
+    st.header("Upload your trained Model")
     model_file = st.file_uploader("Upload your trained model (.pkl)", type="pkl")
     
     if model_file is not None:
         model = pickle.load(model_file)
         st.success("Model loaded successfully!")
 
+        st.header("Upload new data for prediction")
         new_data_file = st.file_uploader("Upload new data for prediction (.csv)", type="csv")
         
         if new_data_file is not None:
@@ -26,6 +28,7 @@ def predict_data():
             st.write("Preview of new data:")
             st.write(new_data.head())
 
+            st.header("Select features for prediction")
             feature_cols = st.multiselect("Select features for prediction", new_data.columns)
 
             if len(feature_cols) > 0:

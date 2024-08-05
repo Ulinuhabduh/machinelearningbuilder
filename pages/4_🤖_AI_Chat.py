@@ -4,14 +4,6 @@ import os
 import time
 import openai
 
-st.sidebar.title("Contact")
-st.sidebar.info(
-    """
-    **Contact Me:**
-    - Email: mulinuhaa@gmail.com
-"""
-)
-
 GOOGLE_API_KEY = st.secrets["key"]["GoogleAPIKey"]
 
 gen_ai.configure(api_key=GOOGLE_API_KEY)
@@ -27,6 +19,14 @@ if "chat_session" not in st.session_state:
     st.session_state.chat_session = model.start_chat(history=[])
 
 st.title("🤖 Gemini - Pro : ChatBot")
+
+st.sidebar.title("Contact")
+st.sidebar.info(
+    """
+    **Contact Me:**
+    - Email: mulinuhaa@gmail.com
+"""
+)
 
 for message in st.session_state.chat_session.history:
     with st.chat_message(translate_role_for_streamlit(message.role)):

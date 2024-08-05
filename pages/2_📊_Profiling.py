@@ -4,7 +4,11 @@ import sweetviz as sv
 import dtale
 from ydata_profiling import ProfileReport
 
-st.title("Profiling Data")
+st.set_page_config(
+    page_title="Profiling Your Data",
+    layout="wide",
+    initial_sidebar_state="expanded",
+)
 
 st.sidebar.title("Contact")
 st.sidebar.info(
@@ -14,6 +18,7 @@ st.sidebar.info(
 """
 )
 
+st.subheader("Upload Data")
 uploaded_file = st.file_uploader("Choose a CSV file for profiling", type="csv")
 
 if uploaded_file is not None:

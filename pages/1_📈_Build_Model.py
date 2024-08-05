@@ -29,12 +29,10 @@ from imblearn.under_sampling import RandomUnderSampler
 import pickle
 import time
 
-st.sidebar.title("Contact")
-st.sidebar.info(
-    """
-    **Contact Me:**
-    - Email: mulinuhaa@gmail.com
-"""
+st.set_page_config(
+    page_title="Build Your Machine Learning Model",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 def plot_roc_auc(y_test, y_pred_proba, n_classes):
@@ -272,8 +270,15 @@ def get_model(model_choice, problem_type, hyperparameters):
 
 
 def build_model():
-    st.title("Build Machine Learning Model")
+    st.sidebar.title("Contact")
+    st.sidebar.info(
+        """
+        **Contact Me:**
+        - Email: mulinuhaa@gmail.com
+    """
+    )
 
+    st.subheader("Upload Data")
     uploaded_file = st.file_uploader("Choose a CSV file for training", type="csv")
     if uploaded_file is None:
         return
