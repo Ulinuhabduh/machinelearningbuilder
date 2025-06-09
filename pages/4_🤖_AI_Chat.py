@@ -1,8 +1,6 @@
 import streamlit as st
 import google.generativeai as gen_ai
-import os
 import time
-import openai
 
 GOOGLE_API_KEY = st.secrets["key"]["GoogleAPIKey"]
 

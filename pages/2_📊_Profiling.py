@@ -1,7 +1,6 @@
 import pandas as pd
 import streamlit as st
 import sweetviz as sv
-import dtale
 from ydata_profiling import ProfileReport
 
 st.set_page_config(
